@@ -56,15 +56,33 @@ public class MainTest {
     @Test
     public void checkGamePaysCorrectWinnings() {
 
-        winnings = game.playRound(player, DiceValue.ANCHOR, 5);
+        winnings = game.playRound(player, DiceValue.SPADE, 5);
+        balance = player.getBalance();
         System.out.println("winnings: " + winnings);
-        assertEquals(10, winnings);
+        assertEquals(5, winnings);
+        assertEquals(6, balance);
+
 
     }
 
     //bug 1
     @Test
-    public void checkPlayerBalanceIncreases() {
+    public void checkPlayerBalanceIncreasesWinning2to1() {
+
+        when(dice1.getValue()).thenReturn(DiceValue.ANCHOR);
+        when(dice2.getValue()).thenReturn(DiceValue.ANCHOR);
+        when(dice3.getValue()).thenReturn(DiceValue.CLUB);
+
+        winnings = game.playRound(player, DiceValue.ANCHOR, 5);
+        balance = player.getBalance();
+
+        assertEquals(10, winnings);
+        assertEquals(11, balance);
+
+    }
+
+    @Test
+    public void checkPlayerBalanceIncreasesWinning3to1() {
 
         when(dice1.getValue()).thenReturn(DiceValue.ANCHOR);
         when(dice2.getValue()).thenReturn(DiceValue.ANCHOR);
@@ -73,9 +91,7 @@ public class MainTest {
         winnings = game.playRound(player, DiceValue.ANCHOR, 5);
         balance = player.getBalance();
 
-        System.out.println("balance: " + balance);
         assertEquals(15, winnings);
-
         //player initial balance is 6 ... betting 5 and winning 15 should change balance to 16.
         assertEquals(16, balance);
 
@@ -89,6 +105,7 @@ public class MainTest {
         assertEquals(1, balance);
         System.out.println("testing amount > limit .. balance = " + balance);
     }
+
     //bug 2
     @Test
     public void checkAmountIsEqualToLimit() {
