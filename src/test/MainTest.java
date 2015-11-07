@@ -31,6 +31,7 @@ public class MainTest {
     private DiceValue diceValue;
     private Game game;
     private Player player;
+    private int winnings;
 
 
     @Before
@@ -49,32 +50,41 @@ public class MainTest {
 
     }
 
+
+    //bug 1
     @Test
     public void checkGamePaysCorrectWinnings() {
 
-
-        int winnings = game.playRound(player, DiceValue.SPADE, 5);
-        assertEquals(5, winnings);
-
-
+        winnings = game.playRound(player, DiceValue.ANCHOR, 5);
+        System.out.println("winnings: " + winnings);
+        assertEquals(10, winnings);
 
     }
+
+    //bug 1
     @Test
     public void checkPlayerBalanceIncreases() {
 
-        int winnings = game.playRound(player, DiceValue.SPADE, 5);
+        winnings = game.playRound(player, DiceValue.ANCHOR, 5);
         int balance = player.getBalance();
 
+        System.out.println("balance: " + balance);
+        assertEquals(10, winnings);
 
-        assertEquals(5, winnings);
+        //player initial balance is 6 ... betting 5 and winning 10 should change balance to 11.
+        assertEquals(11, balance);
 
-        //player initial balance is 6 ... betting 5 and winning 5 should return balance to 6.
-        assertEquals(6, balance);
+    }
 
-
+    //bug2
+    @Test
+    public void checkPlayerReachesBettingLimit() {
+        winnings = game.playRound(player, DiceValue.CLUB, 6);
 
 
     }
+
+
 
 
 
