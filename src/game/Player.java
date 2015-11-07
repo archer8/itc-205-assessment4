@@ -1,3 +1,4 @@
+package game;
 
 public class Player {
 	private String name;
@@ -42,6 +43,6 @@ public class Player {
 	}
 	
 	public String toString() {
-		return String.format("Player: %s, Balance: %d, Limit: %d", name, balance, limit);
+		return String.format("game.Player: %s, Balance: %d, Limit: %d", name, balance, limit);
 	}
 }
