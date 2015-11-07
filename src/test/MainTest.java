@@ -32,6 +32,7 @@ public class MainTest {
     private Game game;
     private Player player;
     private int winnings;
+    private int balance;
 
 
     @Before
@@ -65,23 +66,36 @@ public class MainTest {
     @Test
     public void checkPlayerBalanceIncreases() {
 
+        when(dice1.getValue()).thenReturn(DiceValue.ANCHOR);
+        when(dice2.getValue()).thenReturn(DiceValue.ANCHOR);
+        when(dice3.getValue()).thenReturn(DiceValue.ANCHOR);
+
         winnings = game.playRound(player, DiceValue.ANCHOR, 5);
-        int balance = player.getBalance();
+        balance = player.getBalance();
 
         System.out.println("balance: " + balance);
-        assertEquals(10, winnings);
+        assertEquals(15, winnings);
 
-        //player initial balance is 6 ... betting 5 and winning 10 should change balance to 11.
-        assertEquals(11, balance);
+        //player initial balance is 6 ... betting 5 and winning 15 should change balance to 16.
+        assertEquals(16, balance);
 
     }
 
-    //bug2
+    //bug 2
     @Test
-    public void checkPlayerReachesBettingLimit() {
+    public void checkAmountIsAboveLimit() {
+        winnings = game.playRound(player, DiceValue.CLUB, 5);
+        balance = player.getBalance();
+        assertEquals(1, balance);
+        System.out.println("testing amount > limit .. balance = " + balance);
+    }
+    //bug 2
+    @Test
+    public void checkAmountIsEqualToLimit() {
         winnings = game.playRound(player, DiceValue.CLUB, 6);
-
-
+        balance = player.getBalance();
+        assertEquals(0, balance);
+        System.out.println("testing amount >= limit .. balance = "+balance);
     }
 
 
